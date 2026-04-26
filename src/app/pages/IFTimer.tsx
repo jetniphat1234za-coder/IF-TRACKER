@@ -51,14 +51,15 @@ export function IFTimer() {
           <circle 
             cx="50" cy="50" r="45" 
             fill="transparent" 
-            stroke="#f3f4f6" 
+            stroke="currentColor" 
+            className="text-neutral-100 dark:text-neutral-800 transition-colors"
             strokeWidth="8" 
           />
           {/* Progress Circle */}
           <circle 
             cx="50" cy="50" r="45" 
             fill="transparent" 
-            stroke={isGoalReached ? "#10b981" : "#3b82f6"} 
+            stroke={isGoalReached ? "#10b981" : "#ea580c"} 
             strokeWidth="8"
             strokeDasharray="283"
             strokeDashoffset={283 - (283 * percentage) / 100}
@@ -68,17 +69,17 @@ export function IFTimer() {
         </svg>
 
         <div className="flex flex-col items-center justify-center text-center z-10 px-6">
-          <p className="text-sm font-medium text-neutral-500 uppercase tracking-wide mb-1">
+          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-1">
             {currentFasting 
               ? (isGoalReached ? 'เกินเป้าหมายไป' : 'เวลาที่เหลือ')
               : 'เวลาเป้าหมาย'
             }
           </p>
-          <div className="text-5xl font-black text-neutral-900 tracking-tight my-2 tabular-nums">
+          <div className="text-5xl font-black text-neutral-900 dark:text-white tracking-tight my-2 tabular-nums">
             {getRemainingTime()}
           </div>
           {currentFasting && (
-            <p className="text-sm font-medium text-neutral-500 flex items-center gap-1 mt-2">
+            <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 flex items-center gap-1 mt-2">
               <Clock className="w-4 h-4" />
               เวลาผ่านไป: {formatTime(elapsed)}
             </p>
@@ -89,7 +90,7 @@ export function IFTimer() {
       {/* Protocol Selector or Status Label */}
       {!currentFasting ? (
         <div className="w-full px-6">
-          <label className="flex items-center gap-2 text-sm font-semibold text-neutral-700 mb-3">
+          <label className="flex items-center gap-2 text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
             <Settings2 className="w-5 h-5" />
             เลือกรูปแบบการทำ IF
           </label>
@@ -100,8 +101,8 @@ export function IFTimer() {
                 onClick={() => setSelectedProtocol(p.fastingHours)}
                 className={`py-2 px-3 rounded-xl text-sm font-bold border transition-colors ${
                   selectedProtocol === p.fastingHours
-                    ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-200'
-                    : 'bg-white border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+                    ? 'bg-orange-600 border-orange-600 text-white shadow-md shadow-orange-200 dark:shadow-none'
+                    : 'bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800'
                 }`}
               >
                 {p.name}
@@ -113,8 +114,8 @@ export function IFTimer() {
         <div className="w-full px-6 text-center">
           <div className={`inline-block px-4 py-2 rounded-xl text-sm font-bold ${
             isGoalReached 
-              ? 'bg-emerald-100 text-emerald-700' 
-              : 'bg-blue-100 text-blue-700'
+              ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' 
+              : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
           }`}>
             เป้าหมาย {currentFasting.targetHours} ชั่วโมง
           </div>
@@ -126,7 +127,7 @@ export function IFTimer() {
         {!currentFasting ? (
           <button
             onClick={() => startFasting(selectedProtocol)}
-            className="flex items-center gap-3 bg-neutral-900 hover:bg-neutral-800 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-neutral-200 transition-transform active:scale-95"
+            className="flex items-center gap-3 bg-neutral-900 dark:bg-white hover:bg-neutral-800 dark:hover:bg-neutral-200 text-white dark:text-neutral-900 px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-neutral-200 dark:shadow-none transition-transform active:scale-95"
           >
             <Play className="w-6 h-6 fill-current" />
             เริ่ม Fasting
@@ -136,7 +137,7 @@ export function IFTimer() {
             onClick={() => {
               stopFasting();
             }}
-            className="flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-red-100 transition-transform active:scale-95"
+            className="flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-red-100 dark:shadow-none transition-transform active:scale-95"
           >
             <Square className="w-6 h-6 fill-current" />
             หยุด Fasting

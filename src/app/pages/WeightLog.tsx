@@ -32,7 +32,7 @@ export function WeightLog() {
     <div className="max-w-3xl mx-auto space-y-8">
       
       {/* Target Weight Card */}
-      <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-6 text-white shadow-lg shadow-emerald-200">
+      <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-3xl p-6 text-white shadow-lg shadow-orange-200 dark:shadow-none">
         <div className="flex items-center gap-3 mb-4">
           <Target className="w-8 h-8 opacity-80" />
           <h2 className="text-xl font-bold">เป้าหมายน้ำหนัก</h2>
@@ -46,12 +46,12 @@ export function WeightLog() {
               value={targetInput}
               onChange={(e) => setTargetInput(e.target.value)}
               placeholder="ระบุน้ำหนักเป้าหมาย (กก.)"
-              className="flex-1 bg-white/20 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-emerald-100 outline-none focus:ring-2 focus:ring-white/50"
+              className="flex-1 bg-white/20 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-orange-100 outline-none focus:ring-2 focus:ring-white/50"
               required
             />
             <button
               type="submit"
-              className="bg-white text-emerald-600 px-6 py-3 rounded-xl font-bold hover:bg-emerald-50 transition-colors"
+              className="bg-white text-orange-600 px-6 py-3 rounded-xl font-bold hover:bg-orange-50 transition-colors"
             >
               บันทึก
             </button>
@@ -60,11 +60,11 @@ export function WeightLog() {
           <div className="flex items-end justify-between">
             <div className="flex items-baseline gap-2">
               <span className="text-5xl font-black">{targetWeight}</span>
-              <span className="text-emerald-100 font-medium text-lg">กก.</span>
+              <span className="text-orange-100 font-medium text-lg">กก.</span>
             </div>
             <button 
               onClick={() => setIsEditingTarget(true)}
-              className="text-emerald-50 text-sm font-medium hover:text-white underline underline-offset-4"
+              className="text-orange-50 text-sm font-medium hover:text-white underline underline-offset-4"
             >
               แก้ไข
             </button>
@@ -75,15 +75,15 @@ export function WeightLog() {
       <div className="grid md:grid-cols-3 gap-8">
         {/* Add Log Form */}
         <div className="md:col-span-1">
-          <form onSubmit={handleAddWeight} className="bg-white rounded-2xl p-6 shadow-sm border border-neutral-200 sticky top-8">
-            <h3 className="text-lg font-bold text-neutral-800 mb-6 flex items-center gap-2">
-              <Plus className="w-5 h-5 text-emerald-500" />
+          <form onSubmit={handleAddWeight} className="bg-white dark:bg-neutral-900 rounded-2xl p-6 shadow-sm border border-neutral-200 dark:border-neutral-800 sticky top-8 transition-colors duration-200">
+            <h3 className="text-lg font-bold text-neutral-800 dark:text-white mb-6 flex items-center gap-2">
+              <Plus className="w-5 h-5 text-orange-500" />
               บันทึกน้ำหนักวันนี้
             </h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-600 mb-1">วันที่</label>
+                <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-1">วันที่</label>
                 <div className="relative">
                   <Calendar className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
@@ -91,14 +91,14 @@ export function WeightLog() {
                     value={dateInput}
                     onChange={(e) => setDateInput(e.target.value)}
                     max={format(new Date(), 'yyyy-MM-dd')}
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-neutral-700"
+                    className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-neutral-700 dark:text-white transition-colors"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-600 mb-1">น้ำหนัก (กก.)</label>
+                <label className="block text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-1">น้ำหนัก (กก.)</label>
                 <div className="relative">
                   <Scale className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
@@ -107,7 +107,7 @@ export function WeightLog() {
                     value={weightInput}
                     onChange={(e) => setWeightInput(e.target.value)}
                     placeholder="0.0"
-                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-neutral-700 font-bold"
+                    className="w-full bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-700 rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-neutral-700 dark:text-white font-bold transition-colors"
                     required
                   />
                 </div>
@@ -115,7 +115,7 @@ export function WeightLog() {
 
               <button
                 type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors mt-2 shadow-md shadow-emerald-100"
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-colors mt-2 shadow-md shadow-orange-100 dark:shadow-none"
               >
                 บันทึกข้อมูล
               </button>
@@ -125,28 +125,28 @@ export function WeightLog() {
 
         {/* Logs List */}
         <div className="md:col-span-2 space-y-4">
-          <h3 className="text-lg font-bold text-neutral-800 mb-4">ประวัติการบันทึก</h3>
+          <h3 className="text-lg font-bold text-neutral-800 dark:text-white mb-4">ประวัติการบันทึก</h3>
           
           {weightLogs.length === 0 ? (
-            <div className="bg-neutral-50 rounded-2xl p-10 text-center text-neutral-500 border border-dashed border-neutral-200">
-              <Scale className="w-12 h-12 mx-auto text-neutral-300 mb-3" />
+            <div className="bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl p-10 text-center text-neutral-500 dark:text-neutral-400 border border-dashed border-neutral-200 dark:border-neutral-800 transition-colors duration-200">
+              <Scale className="w-12 h-12 mx-auto text-neutral-300 dark:text-neutral-700 mb-3" />
               <p>ยังไม่มีข้อมูลน้ำหนัก<br/>เริ่มบันทึกน้ำหนักแรกของคุณเลย!</p>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-neutral-200 divide-y divide-neutral-100 overflow-hidden">
+            <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 divide-y divide-neutral-100 dark:divide-neutral-800 overflow-hidden transition-colors duration-200">
               {weightLogs.map((log) => {
                 const logDate = new Date(log.date);
                 return (
-                  <div key={log.id} className="flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors">
+                  <div key={log.id} className="flex items-center justify-between p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="bg-emerald-50 text-emerald-700 w-12 h-12 rounded-xl flex items-center justify-center font-bold">
+                      <div className="bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 w-12 h-12 rounded-xl flex items-center justify-center font-bold">
                         {format(logDate, 'd')}
                       </div>
                       <div>
-                        <p className="font-semibold text-neutral-900">
+                        <p className="font-semibold text-neutral-900 dark:text-white">
                           {log.weight.toFixed(1)} กก.
                         </p>
-                        <p className="text-xs text-neutral-500">
+                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
                           {format(logDate, 'MMMM yyyy', { locale: th })}
                         </p>
                       </div>

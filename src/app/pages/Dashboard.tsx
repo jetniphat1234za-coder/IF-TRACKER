@@ -1,15 +1,23 @@
 import React from 'react';
 import { useTracker } from '../context/TrackerContext';
 import { NavLink } from 'react-router';
-import { Timer, Scale, Dumbbell, ArrowRight, Activity, TrendingDown } from 'lucide-react';
+import { Timer, Scale, Dumbbell, ArrowRight, Activity, TrendingDown, Droplet } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { th } from 'date-fns/locale';
 
 export function Dashboard() {
-  const { currentFasting, weightLogs, targetWeight, exerciseLogs } = useTracker();
+  const { currentFasting, weightLogs, targetWeight, exerciseLogs, waterLogs, updateWaterLog } = useTracker();
   
   const latestWeight = weightLogs.length > 0 ? weightLogs[0].weight : null;
   const recentExercises = exerciseLogs.slice(0, 3);
+
+  const todayStr = format(new Date(), 'yyyy-MM-dd');
+  const todayWaterLog = waterLogs.find(log => log.date === todayStr);
+  const todayWater = todayWaterLog ? todayWaterLog.glasses : 0;
+  
+  const handleWaterChange = (delta: number) => {
+    updateWaterLog(todayStr, delta);
+  };
 
   const getFastingStatus = () => {
     if (!currentFasting) return { label: "กำลังอยู่ในช่วงทานอาหาร (Eating Window)", status: "eating" };
@@ -86,9 +94,21 @@ export function Dashboard() {
             )}
           </div>
           
-          <NavLink to="/weight" className="mt-6 flex items-center text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 font-medium group">
-            บันทึกน้ำหนัก <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </NavLink>
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <NavLink to="/weight" className="flex items-center text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 font-medium group">
+              บันทึกน้ำหนัก <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </NavLink>
+            
+            {/* Water Tracker Mini Card */}
+            <div className="flex items-center gap-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-xl border border-blue-100 dark:border-blue-800/30">
+              <Droplet className="w-4 h-4" />
+              <div className="flex items-center gap-1.5">
+                <button onClick={() => handleWaterChange(-1)} disabled={todayWater <= 0} className="hover:bg-blue-200 dark:hover:bg-blue-800/50 w-6 h-6 flex items-center justify-center rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">-</button>
+                <span className="font-bold text-sm min-w-[20px] text-center">{todayWater}</span>
+                <button onClick={() => handleWaterChange(1)} className="hover:bg-blue-200 dark:hover:bg-blue-800/50 w-6 h-6 flex items-center justify-center rounded-md transition-colors">+</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Exercise Card */}

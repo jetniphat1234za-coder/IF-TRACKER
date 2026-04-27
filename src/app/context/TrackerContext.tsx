@@ -39,6 +39,11 @@ export type ExerciseLog = {
   sets: ExerciseSet[];
 };
 
+export type WaterLog = {
+  date: string;
+  glasses: number;
+};
+
 type TrackerContextType = {
   // Fasting
   currentFasting: FastingSession | null;
@@ -57,6 +62,10 @@ type TrackerContextType = {
   exerciseLogs: ExerciseLog[];
   addExerciseLog: (exerciseName: string, sets: ExerciseSet[], date: string) => void;
   deleteExerciseLog: (id: string) => void;
+
+  // Water
+  waterLogs: WaterLog[];
+  updateWaterLog: (date: string, delta: number) => void;
 };
 
 const TrackerContext = createContext<TrackerContextType | undefined>(undefined);
@@ -69,6 +78,8 @@ export function TrackerProvider({ children }: { children: ReactNode }) {
   const [targetWeight, setTargetWeight] = useLocalStorage<number | null>('if_target_weight', null);
   
   const [exerciseLogs, setExerciseLogs] = useLocalStorage<ExerciseLog[]>('if_exercise_logs', []);
+
+  const [waterLogs, setWaterLogs] = useLocalStorage<WaterLog[]>('if_water_logs', []);
 
   const startFasting = (targetHours: number) => {
     setCurrentFasting({
@@ -119,6 +130,19 @@ export function TrackerProvider({ children }: { children: ReactNode }) {
     setExerciseLogs((prev) => prev.filter((log) => log.id !== id));
   };
 
+  const updateWaterLog = (date: string, delta: number) => {
+    setWaterLogs((prev) => {
+      const existingIndex = prev.findIndex(log => log.date === date);
+      if (existingIndex >= 0) {
+        const newLogs = [...prev];
+        const newGlasses = Math.max(0, newLogs[existingIndex].glasses + delta);
+        newLogs[existingIndex].glasses = newGlasses;
+        return newLogs;
+      }
+      return [...prev, { date, glasses: Math.max(0, delta) }];
+    });
+  };
+
   return (
     <TrackerContext.Provider
       value={{
@@ -134,6 +158,8 @@ export function TrackerProvider({ children }: { children: ReactNode }) {
         exerciseLogs,
         addExerciseLog,
         deleteExerciseLog,
+        waterLogs,
+        updateWaterLog,
       }}
     >
       {children}

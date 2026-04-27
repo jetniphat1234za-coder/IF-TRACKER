@@ -3,7 +3,7 @@ import { useTracker } from '../context/TrackerContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format, subDays } from 'date-fns';
 import { th } from 'date-fns/locale';
-import { TrendingDown, TrendingUp, Clock, Activity, CalendarDays } from 'lucide-react';
+import { TrendingDown, TrendingUp, Clock, Activity, CalendarDays, Download, Upload } from 'lucide-react';
 
 export function Progress() {
   const { weightLogs, targetWeight, fastingHistory, exerciseLogs } = useTracker();
@@ -36,14 +36,89 @@ export function Progress() {
     return uniqueDays.size;
   }, [exerciseLogs]);
 
+  const handleExport = () => {
+    const data = {
+      if_current_fast: localStorage.getItem('if_current_fast'),
+      if_fast_history: localStorage.getItem('if_fast_history'),
+      if_weight_logs: localStorage.getItem('if_weight_logs'),
+      if_target_weight: localStorage.getItem('if_target_weight'),
+      if_exercise_logs: localStorage.getItem('if_exercise_logs'),
+      if_water_logs: localStorage.getItem('if_water_logs'),
+      if_theme: localStorage.getItem('if_theme'),
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `iftracker-backup-${format(new Date(), 'yyyy-MM-dd')}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const content = event.target?.result as string;
+        const data = JSON.parse(content);
+        
+        const keys = ['if_current_fast', 'if_fast_history', 'if_weight_logs', 'if_target_weight', 'if_exercise_logs', 'if_water_logs', 'if_theme'];
+        let hasData = false;
+        
+        keys.forEach(key => {
+          if (data[key] !== undefined) {
+            hasData = true;
+            if (data[key] === null) {
+              localStorage.removeItem(key);
+            } else {
+              localStorage.setItem(key, data[key]);
+            }
+          }
+        });
+        
+        if (hasData) {
+          alert('นำเข้าข้อมูลสำเร็จ! ระบบจะทำการรีโหลดหน้าเว็บ');
+          window.location.reload();
+        } else {
+          alert('ไฟล์ข้อมูลไม่ถูกต้อง');
+        }
+      } catch (error) {
+        alert('เกิดข้อผิดพลาดในการอ่านไฟล์');
+      }
+    };
+    reader.readAsText(file);
+    // Reset input value to allow importing the same file again if needed
+    e.target.value = '';
+  };
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-12">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
-          <Activity className="text-orange-600 dark:text-orange-500 w-8 h-8" />
-          สรุปพัฒนาการ
-        </h2>
-        <p className="text-neutral-500 dark:text-neutral-400 mt-2">ติดตามความก้าวหน้าและสถิติของคุณ</p>
+      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-3">
+            <Activity className="text-orange-600 dark:text-orange-500 w-8 h-8" />
+            สรุปพัฒนาการ
+          </h2>
+          <p className="text-neutral-500 dark:text-neutral-400 mt-2">ติดตามความก้าวหน้าและสถิติของคุณ</p>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <button onClick={handleExport} className="flex items-center gap-2 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 px-4 py-2 rounded-xl text-sm font-medium transition-colors">
+            <Download className="w-4 h-4" />
+            ส่งออกข้อมูล
+          </button>
+          <label className="flex items-center gap-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-500 border border-orange-200 dark:border-orange-800/30 hover:bg-orange-100 dark:hover:bg-orange-900/40 px-4 py-2 rounded-xl text-sm font-medium transition-colors cursor-pointer">
+            <Upload className="w-4 h-4" />
+            นำเข้าข้อมูล
+            <input type="file" accept=".json" onChange={handleImport} className="hidden" />
+          </label>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

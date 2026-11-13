@@ -1,55 +1,59 @@
 # ⏱️ IF Tracker
 
-เว็บแอปติดตามการทำ **Intermittent Fasting (IF)** น้ำหนัก การออกกำลังกาย และการดื่มน้ำ ในที่เดียว
-ดีไซน์โทนสีส้ม รองรับทั้งมือถือและเดสก์ท็อป พร้อมโหมดมืด/สว่าง
+🌐 **English** | [ภาษาไทย](README.th.md)
 
-ข้อมูลทั้งหมดเก็บไว้ใน **เบราว์เซอร์ของคุณ (localStorage)** ไม่ต้องสมัครสมาชิกและไม่ส่งข้อมูลไปเซิร์ฟเวอร์ใด ๆ
+A web app for tracking **Intermittent Fasting (IF)**, weight, workouts, and water intake in one place.
+Orange-themed design, responsive for mobile and desktop, with light/dark mode.
 
-## ✨ ฟีเจอร์หลัก
+All data is stored in **your browser (localStorage)** — no sign-up and nothing is sent to a server.
 
-| หน้า | รายละเอียด |
-|------|-----------|
-| 🏠 **หน้าหลัก** | ภาพรวมวันนี้: สถานะ IF (ช่วงงดอาหาร/ช่วงทานอาหาร), น้ำหนักล่าสุด, การออกกำลังกายล่าสุด และตัวนับแก้วน้ำประจำวัน |
-| ⏲️ **IF Timer** | จับเวลา Fasting แบบวงกลมนับถอยหลัง เลือกโปรโตคอลได้: 16:8, 18:6, 20:4, OMAD (23:1) แจ้งเมื่อถึงเป้าหมาย |
-| ⚖️ **น้ำหนัก** | บันทึกน้ำหนักรายวัน ตั้งเป้าหมายน้ำหนัก และดูประวัติ |
-| 🏋️ **ออกกำลังกาย** | บันทึกท่า จำนวนเซ็ต/จำนวนครั้ง/น้ำหนักที่ใช้ |
-| 📈 **สรุปผล** | กราฟพัฒนาการ สถิติ Fasting ที่สำเร็จ วันออกกำลังกายใน 7 วันล่าสุด และประวัติ Fasting |
-| 💾 **สำรองข้อมูล** | ส่งออก/นำเข้าข้อมูลเป็นไฟล์ JSON เพื่อย้ายเครื่องหรือกันข้อมูลหาย |
-| 🌗 **ธีม** | สลับโหมดมืด/สว่างได้ |
+> Note: the interface is in Thai.
 
-## 🛠️ เทคโนโลยีที่ใช้
+## ✨ Features
+
+| Page | Details |
+|------|---------|
+| 🏠 **Dashboard** | Today's overview: IF status (fasting / eating window), latest weight, recent workouts, and a daily water-glass counter |
+| ⏲️ **IF Timer** | Circular fasting timer with selectable protocols: 16:8, 18:6, 20:4, OMAD (23:1); notifies you when the goal is reached |
+| ⚖️ **Weight** | Log daily weight, set a target weight, and view history |
+| 🏋️ **Exercise** | Log exercises with sets, reps, and weight used |
+| 📈 **Progress** | Progress charts, completed-fast stats, active days in the last 7 days, and fasting history |
+| 💾 **Backup** | Export/import your data as a JSON file to move devices or avoid data loss |
+| 🌗 **Theme** | Toggle between dark and light mode |
+
+## 🛠️ Tech Stack
 
 - [React 18](https://react.dev/) + TypeScript
 - [Vite](https://vite.dev/) (build tool)
 - [Tailwind CSS 4](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
 - [React Router 7](https://reactrouter.com/)
-- [Recharts](https://recharts.org/) (กราฟ), [date-fns](https://date-fns.org/) (วันที่ภาษาไทย), [Lucide](https://lucide.dev/) (ไอคอน), Motion (แอนิเมชัน), canvas-confetti
+- [Recharts](https://recharts.org/) (charts), [date-fns](https://date-fns.org/) (Thai-locale dates), [Lucide](https://lucide.dev/) (icons), Motion (animation), canvas-confetti
 
-## 🚀 วิธีติดตั้งและใช้งาน
+## 🚀 Getting Started
 
-ต้องมี [Node.js](https://nodejs.org/) ติดตั้งในเครื่อง
+Requires [Node.js](https://nodejs.org/).
 
 ```bash
-# 1. โคลนโปรเจกต์
+# 1. Clone the repository
 git clone https://github.com/jetniphat1234za-coder/IF-TRACKER.git
 cd IF-TRACKER
 
-# 2. ติดตั้งไลบรารี
+# 2. Install dependencies
 npm install
 
-# 3. รันโหมดพัฒนา
+# 3. Start the dev server
 npm run dev
 ```
 
-เปิดเบราว์เซอร์ตามที่ Vite แสดง (ปกติคือ <http://localhost:5173>)
+Open the URL Vite prints (usually <http://localhost:5173>).
 
-สร้างไฟล์สำหรับ deploy:
+Build for production:
 
 ```bash
 npm run build
 ```
 
-## 📁 โครงสร้างโปรเจกต์
+## 📁 Project Structure
 
 ```
 IF-TRACKER/
@@ -59,21 +63,21 @@ IF-TRACKER/
 │   ├── main.tsx
 │   ├── app/
 │   │   ├── App.tsx
-│   │   ├── routes.tsx            # เส้นทางของแต่ละหน้า
+│   │   ├── routes.tsx            # Page routes
 │   │   ├── components/           # Layout, FloatingIcons, ui/ (shadcn)
-│   │   ├── context/              # TrackerContext (state หลัก), ThemeContext
+│   │   ├── context/              # TrackerContext (main state), ThemeContext
 │   │   ├── hooks/useLocalStorage.ts
 │   │   └── pages/                # Dashboard, IFTimer, WeightLog, ExerciseLog, Progress
 │   └── styles/
 └── package.json
 ```
 
-## 🔒 เรื่องข้อมูลส่วนตัว
+## 🔒 Privacy
 
-ข้อมูลทั้งหมดอยู่ใน localStorage ของเบราว์เซอร์เครื่องนั้น ๆ การล้างข้อมูลเบราว์เซอร์จะทำให้ข้อมูลหาย
-แนะนำให้กด **ส่งออกข้อมูล** ในหน้า "สรุปผล" เป็นระยะ
+All data lives in the localStorage of the browser you use. Clearing browser data will erase it,
+so use **Export data** on the Progress page regularly to keep a backup.
 
-## 🙏 เครดิต
+## 🙏 Credits
 
-- ออกแบบต้นแบบด้วย [Figma Make](https://www.figma.com/design/ROMA49arT5dwa8ivECGAgo/Webpage-Summary-for-IF-Tracker)
-- คอมโพเนนต์จาก [shadcn/ui](https://ui.shadcn.com/) (MIT License) และรูปภาพจาก [Unsplash](https://unsplash.com) — ดู [ATTRIBUTIONS.md](ATTRIBUTIONS.md)
+- Prototype designed with [Figma Make](https://www.figma.com/design/ROMA49arT5dwa8ivECGAgo/Webpage-Summary-for-IF-Tracker)
+- Components from [shadcn/ui](https://ui.shadcn.com/) (MIT License) and photos from [Unsplash](https://unsplash.com) — see [ATTRIBUTIONS.md](ATTRIBUTIONS.md)
